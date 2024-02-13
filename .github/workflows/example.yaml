@@ -9,4 +9,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Push to another repository
-        uses: ./push-to-another-repo/
+        uses: gadaniyati/my-actions/push-to-another-repo@main
+        env:
+          API_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}

@@ -7,7 +7,34 @@ runs:
       shell: bash
       run: |
         echo "> Starting - Push to another repository script"
+        
+        DEST_REPO_NAME="test-private"
+        DEST_REPO_USERNAME="destine-u"
+        USER_EMAIL="gadaniyati@gmail.com"
+        USER_NAME="gadaniyati"
+        SERVER="github.com"
+
         echo "> Parameters"
+
         echo "> Git version"
         git --version
+
+        echo "> Setting Git configuration"
+        git config --global user.email "$USER_EMAIL"
+        git config --global user.name "$USER_NAME"
+        git lfs install
+
+
+        echo "> Destination Repository URL - Using API Token"
+	      REPO_URL="https://$DEST_REPO_USERNAME:$API_TOKEN@$SERVER/$DEST_REPO_USERNAME/$DEST_REPO_NAME.git"
+        echo $REPO_URL
+
+        echo "> Destination Clone Directory"
+        DEST_CLONE_DIR=$(mktemp -d)
+        echo $DEST_CLONE_DIR
+
+        echo "> Cloning destination git repository $DEST_REPO_USERNAME/$DEST_REPO_NAME"
+        git clone "$REPO_URL" "$DEST_CLONE_DIR"
+        ls -la "$DEST_CLONE_DIR"
+
         echo "> Completed - Push to another repository script"
