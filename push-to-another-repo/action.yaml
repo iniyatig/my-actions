@@ -4,8 +4,10 @@ runs:
   using: composite
   steps:
     - name: Push to another repository
+      shell: bash
       run: |
         echo "> Starting - Push to another repository script"
+        echo "> Parameters"
         echo "> Git version"
         git --version
         echo "> Completed - Push to another repository script"

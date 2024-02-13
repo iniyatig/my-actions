@@ -8,8 +8,5 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - run: |
-          pwd
-          ls -ltr
       - name: Push to another repository
         uses: ./push-to-another-repo/
