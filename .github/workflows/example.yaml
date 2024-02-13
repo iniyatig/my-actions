@@ -12,4 +12,4 @@ jobs:
           pwd
           ls -ltr
       - name: Push to another repository
-        uses: ./pust-to-another-repo/
+        uses: ./push-to-another-repo/
