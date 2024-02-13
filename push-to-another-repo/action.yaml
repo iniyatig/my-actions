@@ -26,7 +26,7 @@ runs:
 
 
         echo "> Destination Repository URL - Using API Token"
-	      REPO_URL="https://$DEST_REPO_USERNAME:$API_TOKEN@$SERVER/$DEST_REPO_USERNAME/$DEST_REPO_NAME.git"
+        REPO_URL="https://$DEST_REPO_USERNAME:$API_TOKEN@$SERVER/$DEST_REPO_USERNAME/$DEST_REPO_NAME.git"
         echo $REPO_URL
 
         echo "> Destination Clone Directory"
