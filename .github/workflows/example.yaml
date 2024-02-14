@@ -13,5 +13,5 @@ jobs:
         with:
           source: build-dist
           destination_repo_name: destine-u/test-private
-          destination_branch: changes-from-another
+          destination_branch: changes-from-another-1
           access_key: ${{ secrets.API_TOKEN_GITHUB }}
