@@ -13,6 +13,6 @@ jobs:
 
       - name: Get User Repositories
         id: get_repos
-        run: gh repo list --owner "${{ github.repository_owner }}" --limit 1000 --json nameWithOwner
+        run: gh repo list "${{ github.repository_owner }}" --limit 1000 --json nameWithOwner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
