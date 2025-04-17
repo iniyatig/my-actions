@@ -1,0 +1,18 @@
+name: Calculate & Update Line of Code
+
+on:
+  workflow_dispatch:
+
+jobs:
+  calculate-line-of-code:
+    name: Calculate Line of Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Get User Repositories
+        id: get_repos
+        run: gh repo list --owner "${{ github.repository_owner }}" --limit 1000 --json nameWithOwner
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
