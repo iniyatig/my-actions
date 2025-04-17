@@ -1,7 +1,8 @@
 name: Calculate & Update Line of Code
 
 on:
-  push: main
+  push: 
+    branches: [main]
 
 jobs:
   calculate-line-of-code:
