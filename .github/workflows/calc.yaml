@@ -18,5 +18,32 @@ jobs:
       - name: Get User Repositories
         id: get_repos
         run: |
-          gh repo list "${{ github.repository_owner }}" --limit 1000 --json nameWithOwner | jq -r '.[].nameWithOwner' > repos.txt
+          gh repo list "galaniyati" --limit 1000 --json nameWithOwner --jq '.[].nameWithOwner' > repos.txt
           cat repos.txt
+      - name: Analyze LOC for Each Repo
+        run: |
+          aggregated_loc_by_language=$(yq -n)
+          while IFS= read -r repo_with_owner; do
+            owner=$(echo "$repo_with_owner" | cut -d'/' -f1)
+            repo=$(echo "$repo_with_owner" | cut -d'/' -f2)
+
+            echo "Analyzing LOC for $repo_with_owner"
+
+            # Clone the repository
+            git clone "https://github.com/$repo_with_owner.git" "$repo"
+
+            # Run the modified LOC analysis script
+            loc_data=$(./get_loc_by_language.sh "${{ github.event.inputs.username || github.repository_owner }}" "$repo")
+
+            if [ -n "$loc_data" ]; then
+              aggregated_loc_by_language=$(echo "$aggregated_loc_by_language" | yq -M ". * ($loc_data)")
+            fi
+
+            # Clean up
+            cd ..
+            rm -rf "$repo"
+          done < repos.txt
+
+          echo "$aggregated_loc_by_language" > total_loc_by_language.yaml
+          echo "$aggregated_loc_by_language" 
+
