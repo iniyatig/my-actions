@@ -1,0 +1,68 @@
+name: Aggregate LOC by Language
+
+on:
+  workflow_dispatch:
+
+jobs:
+  aggregate-loc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Main Repository
+        uses: actions/checkout@v3
+
+      - name: Clone repositories
+        env:
+          REPO_LIST: |
+            iumangg/iumangg
+            iumangg/ds-algo
+            iumangg/node-typescript-template
+            iumangg/react-js-template
+            iumangg/galaumang.github.io
+        run: |
+          mkdir -p repos
+          cd repos
+          for repo in $REPO_LIST; do
+            git clone https://github.com/$repo.git
+          done
+
+      - name: Aggregate Lines of Code
+        env:
+          AUTHOR: "umang"
+          SINCE_DATE: "1970-01-01T00:00:00Z"
+        run: |
+          ignore_extensions=("json" "md" "txt" "gradle" "LICENSE" )
+          cd repos
+          declare -A language_loc
+          for repo in *; do
+            cd $repo
+            while read -r added removed file; do
+              # Ignore files that do not have a "." or start with a "."
+              if [[ "$file" != *.* || "$file" == .* ]]; then
+                continue
+              fi
+              # Handle renamed files with the format {old_path => new_path}
+              if [[ $file == *"{"*"=>"*"}"* ]]; then
+                # Extract the new file path after the arrow
+                file=$(echo "$file" | sed -E 's/.*=> (.*)}/\1/')
+              fi
+              
+              # Extract file extension and process LOC
+              language=${file##*.}
+              # Skip files with extensions in the ignore list
+              if [[ " ${ignore_extensions[*]} " == *" $language "* ]]; then
+                continue
+              fi
+              # Proceed with processing if the extension is not ignored
+              if [[ $added =~ ^[0-9]+$ ]] && [[ $removed =~ ^[0-9]+$ ]]; then
+                loc=$((added - removed))
+                language_loc[$language]=$((language_loc[$language] + loc))
+              fi
+              echo "Added: $added, Removed: $removed, LOC: $loc, File: $file"
+            done < <(git log --author="$AUTHOR" --pretty=tformat: --numstat --since="$SINCE_DATE")
+            cd ..
+          done
+
+          echo "Lines of Code by Language (sorted descending):"
+          for language in "${!language_loc[@]}"; do
+            echo "$language ${language_loc[$language]}"
+          done | sort -rn -k2
