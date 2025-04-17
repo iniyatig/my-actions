@@ -12,6 +12,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Authenticate GitHub CLI
+        run: echo "${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}" | gh auth login --with-token # Needs 'repo' scope
+
       - name: Get User Repositories
         id: get_repos
         run: gh repo list "${{ github.repository_owner }}" --limit 1000 --json nameWithOwner
