@@ -32,6 +32,8 @@ jobs:
             # Clone the repository
             git clone "https://github.com/$repo_with_owner.git" "$repo"
 
+            echo "${{ github.event.inputs.username || github.repository_owner }}"
+            echo "$repo"
             # Run the modified LOC analysis script
             loc_data=$(./get_loc_by_language.sh "${{ github.event.inputs.username || github.repository_owner }}" "$repo")
 
