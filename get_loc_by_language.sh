@@ -3,7 +3,12 @@
 author_name="$1"
 repo_path="$2"
 
+echo $author_name
+echo $repo_path
+
 cd "$repo_path" || exit 1
+
+git log --author="$author_name" --pretty=tformat: --numstat --since="1970-01-01T00:00:00Z"
 
 git log --author="$author_name" --pretty=tformat: --numstat --since="1970-01-01T00:00:00Z" |
 awk '
