@@ -1,8 +1,7 @@
 name: Calculate & Update Line of Code
 
 on:
-  push: 
-    branches: [main]
+  workflow_dispatch
 
 jobs:
   calculate-line-of-code:
