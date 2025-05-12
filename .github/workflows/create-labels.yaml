@@ -12,3 +12,5 @@ jobs:
     steps:
       - name: Print Message
         run: echo "Workflow triggered manually! ${{ toJson(github.event.inputs) }}"
+      - name: Print Value
+        run: echo "Value! ${{ github.event.inputs.user_confirmation }}"
