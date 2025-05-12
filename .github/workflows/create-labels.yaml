@@ -1,0 +1,14 @@
+name: Create labels
+on: 
+  workflow_dispatch:
+    inputs:
+      user_confirmation:
+        description: Enter the repository name
+        required: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Message
+        run: echo "Workflow triggered manually! ${{ github.event.inpust.user_confirmation }}"
