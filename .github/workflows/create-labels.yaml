@@ -14,3 +14,7 @@ jobs:
         run: echo "Workflow triggered manually! ${{ toJson(github.event.inputs) }}"
       - name: Print Value
         run: echo "Value! ${{ github.event.inputs.user_confirmation }}"
+      - name: create label
+        run: gh label create "testing" --repo ${{ github.event.inputs.user_confirmation }} --color FF0000 --description "Issues related to testing"
+
+
