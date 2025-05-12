@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print Message
-        run: echo "Workflow triggered manually! ${{ github.event.inpust.user_confirmation }}"
+        run: echo "Workflow triggered manually! ${{ toJson(github.event.inputs) }}"
